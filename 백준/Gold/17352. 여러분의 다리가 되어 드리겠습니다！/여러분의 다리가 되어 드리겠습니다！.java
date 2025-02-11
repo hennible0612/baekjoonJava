@@ -4,13 +4,16 @@ import java.util.*;
 public class Main {
 
     static int[] parent;
+    static int[] size;
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(bf.readLine());
         parent = new int[N + 1];
+        size = new int[N + 1];
         for(int i = 1; i <= N; i++) {
             parent[i] = i;
+            size[i] = i;
         }
         for(int i = 1; i <= N - 2; i++) {
             StringTokenizer st = new StringTokenizer(bf.readLine());
@@ -31,7 +34,6 @@ public class Main {
             }
         }
         System.out.println(root1 + " " + root2);
-
     }
 
     public static int find(int a){
@@ -46,8 +48,14 @@ public class Main {
         int rootY = find(y);
 
         if(rootX != rootY){
-            parent[rootY] = rootX;
+            if(size[rootX] < size[rootY]){
+                parent[rootX] = rootY;
+                size[rootY] += size[rootX];
+
+            }else{
+                parent[rootY] = rootX;
+                size[rootX] += size[rootY];
+            }
         }
     }
-
 }
